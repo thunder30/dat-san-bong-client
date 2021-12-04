@@ -11,10 +11,9 @@ function DefaultLayout({ children }) {
             <HeaderContent />
             <Content
                 style={{
-                    padding: '10px',
-                    margin: '10px auto',
                     width: '100%',
-                    maxWidth: '1100px',
+                    margin: 0,
+                    padding: 0,
                 }}
             >
                 {children}
