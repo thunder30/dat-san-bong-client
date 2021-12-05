@@ -2,7 +2,6 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Layout, Row, Col } from 'antd'
 import { FacebookOutlined } from '@ant-design/icons'
-import shoppeIcon from '../../assets/shopee-seeklogo.com.svg'
 const { Footer } = Layout
 
 const contentStyle = {
