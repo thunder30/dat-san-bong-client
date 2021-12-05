@@ -12,7 +12,7 @@ function FooterContent() {
                 background: 'none',
             }}
         >
-            asdf
+            Footer Content
         </Footer>
     )
 }

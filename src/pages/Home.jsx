@@ -1,22 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Button, Card } from 'antd'
+import styled from 'styled-components'
+import { PitchBranchContext } from '../contexts/PitchBranchProvider'
+
 import DefaultLayout from '../layout/DefaultLayout'
 import background from '../assets/background-main.jpg'
-import styled from 'styled-components'
-
-const titleStyle = {
-    color: '#fff',
-    fontSize: '1.5rem',
-    textShadow: '1px 1px #e3e3e3',
-}
-
-const descriptionStyle = {
-    color: '#fff',
-    fontSize: '1.2rem',
-    fontStyle: 'italic',
-    marginBottom: 20,
-}
 
 const contentStyle = {
     maxWidth: 1100,
@@ -24,12 +13,24 @@ const contentStyle = {
     height: '100%',
 }
 
-const backgroundStyle = {
-    backgroundImage: `url("${background}")`,
-    height: '100%',
-    backgroundPosition: 'center',
-    backgroundSize: 'cover',
-}
+const SloganStyled = styled.div`
+    background-image: url('${background}');
+    background-position: center;
+    background-size: cover;
+    height: 100%;
+    h1 {
+        color: #fff;
+        font-size: 1.5rem;
+        text-shadow: 0.3px 1px #e3e3e3;
+    }
+    h2 {
+        color: #fff;
+        font-size: 1.2rem;
+        font-style: italic;
+        margin-bottom: 20px;
+        letter-spacing: 1px;
+    }
+`
 
 const WrapperStyled = styled.div`
     h2 {
@@ -46,7 +47,10 @@ const WrapperStyled = styled.div`
 const CardStyled = styled(Card)`
     text-align: center;
     border-radius: 10px;
-    height: 200px;
+    .ant-card-body {
+        height: 250px;
+        line-height: 202px;
+    }
 `
 
 const pitchBranches = [
@@ -77,25 +81,25 @@ const pitchBranches = [
 ]
 
 function Home() {
+    const {
+        branchState: { branches },
+    } = useContext(PitchBranchContext)
+
     return (
         <DefaultLayout>
             <Row>
                 <Col span={24} style={{ minHeight: '70vh' }}>
-                    <div style={backgroundStyle}>
+                    <SloganStyled>
                         <Row align="middle" style={contentStyle}>
                             <Col span={20}>
-                                <h1 style={titleStyle}>
-                                    ĐẶT SÂN NHANH CHÓNG - DỄ DÀNG
-                                </h1>
-                                <h2 style={descriptionStyle}>
-                                    Gặp Messi cùng các đồng đội
-                                </h2>
+                                <h1>ĐẶT SÂN NHANH CHÓNG - DỄ DÀNG</h1>
+                                <h2>Gặp Messi cùng các đồng đội</h2>
                                 <Link to="/pitchbranch">
                                     <Button type="primary">Đặt ngay</Button>
                                 </Link>
                             </Col>
                         </Row>
-                    </div>
+                    </SloganStyled>
                 </Col>
                 <Col span={24}>
                     <Row
@@ -117,24 +121,35 @@ function Home() {
                             </WrapperStyled>
                         </Col>
                         <Col className="gutter-row" span={24}>
-                            <Row gutter={[10]}>
-                                {pitchBranches.map(({ _id, displayName }) => (
-                                    <Col
-                                        className="gutter-row"
-                                        span={6}
-                                        key={_id}
-                                    >
-                                        <CardStyled
-                                            hoverable
-                                            onClick={() => (
-                                                <Link to="/pitchbranch/_id" />
-                                            )}
+                            <Row gutter={[24]} justify="center">
+                                {pitchBranches.map(({ _id, displayName }) => {
+                                    const url = '/pitchbranch/' + _id
+                                    return (
+                                        <Col
+                                            className="gutter-row"
+                                            span={6}
+                                            key={_id}
                                         >
-                                            <h3>{displayName}</h3>
-                                        </CardStyled>
-                                    </Col>
-                                ))}
+                                            <Link to={url}>
+                                                <CardStyled hoverable>
+                                                    <h3>{displayName}</h3>
+                                                </CardStyled>
+                                            </Link>
+                                        </Col>
+                                    )
+                                })}
                             </Row>
+                        </Col>
+                        <Col
+                            className="gutter-row"
+                            span={24}
+                            style={{
+                                textAlign: 'center',
+                            }}
+                        >
+                            <Link to="/pitchbranch">
+                                Xem tất cả sân bóng &#8811;
+                            </Link>
                         </Col>
                     </Row>
                 </Col>

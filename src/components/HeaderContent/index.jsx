@@ -70,10 +70,12 @@ function HeaderContent() {
                                 </a>
                             </Col>
                             <Col className="gutter-row">
-                                <NavLink to="register">Đăng ký chủ sân</NavLink>
+                                <NavLink to="/register">
+                                    Đăng ký chủ sân
+                                </NavLink>
                             </Col>
                             <Col className="gutter-row">
-                                <NavLink to="login">Đăng nhập</NavLink>
+                                <NavLink to="/login">Đăng nhập</NavLink>
                             </Col>
                         </Row>
                     </Col>

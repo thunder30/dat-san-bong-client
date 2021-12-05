@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import axios from 'axios'
-import { API_BASE_URL, LOCAL_STORAGE_TOKEN_NAME } from './constants'
+import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../config'
 import setHeaderToken from '../helpers/setHeaderToken'
 import reducer, { initialState } from '../reducers/authReducer/reducer'
 import {
@@ -16,7 +16,7 @@ function AuthProvider({ children }) {
     console.log(`Auth provider`)
     // call api loadUser
     const loadUser = async () => {
-        const token = localStorage.getItem(LOCAL_STORAGE_TOKEN_NAME)
+        const token = localStorage.getItem(ACCESS_TOKEN_NAME)
         setHeaderToken(token)
 
         try {
@@ -31,7 +31,7 @@ function AuthProvider({ children }) {
                 )
             }
         } catch (error) {
-            localStorage.removeItem(LOCAL_STORAGE_TOKEN_NAME)
+            localStorage.removeItem(ACCESS_TOKEN_NAME)
             setHeaderToken(null)
             dispatch(
                 setAuth({
@@ -54,10 +54,7 @@ function AuthProvider({ children }) {
                 password,
             })
             if (res.data.success) {
-                localStorage.setItem(
-                    LOCAL_STORAGE_TOKEN_NAME,
-                    res.data.accessToken
-                )
+                localStorage.setItem(ACCESS_TOKEN_NAME, res.data.accessToken)
                 // get user
             }
             loadUser()
