@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Row, Col, Select, Button, Divider, Image } from 'antd'
 import { getDateOfWeek } from '../../helpers'
 import mbappe from '../../assets/PitchBranchDetail/mbappe.jpg'

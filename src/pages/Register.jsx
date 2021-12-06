@@ -1,8 +1,13 @@
 import React from 'react'
 import AuthLayout from '../layout/AuthLayout'
+import DefaultLayout from '../layout/DefaultLayout'
 
 function Register() {
-    return <AuthLayout text="Đăng ký" />
+    return (
+        <DefaultLayout>
+            <AuthLayout authRoute="register" />
+        </DefaultLayout>
+    )
 }
 
 export default Register

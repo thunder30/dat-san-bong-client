@@ -10,6 +10,7 @@ const errorHandler = (error) => {
 
     if (!response) {
         notification.error({
+            duration: 5,
             message: 'Request Error',
             description:
                 'Không kết nối được server. Có thể server bị lỗi hoặc vui lòng kiểm tra lại đường truyền mạng.',
@@ -25,12 +26,14 @@ const errorHandler = (error) => {
         const errorText = message || codeMessage[status]
 
         notification.error({
+            duration: 5,
             message: `Request error ${status}`,
             description: errorText,
         })
         return response.data
     } else {
         notification.error({
+            duration: 5,
             message: 'Unknown Error',
             description:
                 'An unknown error occurred in the app, please try again. ',

@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Form, Input, Button, Checkbox, Typography, Divider, Alert } from 'antd'
+import { Form, Input, Button, Checkbox, Typography, Divider } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { AuthContext } from '../../contexts/AuthProvider'
@@ -16,18 +16,44 @@ const WrapperStyled = styled.div`
             text-decoration: underline;
         }
     }
+    .login-btn {
+        border-radius: 4px;
+    }
     .login-form-button {
         width: 100%;
     }
+    .login-google {
+        color: #cf4332;
+        border-color: #cf4332;
+        text-shadow: none;
+        &:hover {
+            color: #fff;
+            border-color: #fff;
+            background-color: #cf4332;
+        }
+    }
+    .login-facebook {
+        color: #3d348b;
+        border-color: #3d348b;
+        text-shadow: none;
+        &:hover {
+            color: #fff;
+            border-color: #fff;
+            background-color: #3d348b;
+        }
+    }
 `
 const TextStyled = styled(Text)`
-    font-size: 1.75rem;
+    font-size: 2rem;
+    font-weight: 600;
 `
 const ParagraphStyled = styled(Paragraph)`
     color: #b3b3b3;
-    font-size: 1rem;
+    font-size: 1.2rem;
     margin-bottom: 1.3rem;
+    font-weight: 400;
 `
+
 function Login() {
     // Contexts
     const { login } = useContext(AuthContext)
@@ -56,40 +82,13 @@ function Login() {
     const [form] = Form.useForm()
 
     // submit form
-    const handleOnFinish = async () => {
-        //console.log('Received value of form: ', values)
-        // call api login
-        try {
-            const data = await login(loginForm)
-            if (!data.success) {
-                // hien thi thong bao
-                console.log(data.message)
-                setAlert(data.message)
-                setTimeout(() => setAlert(null), 5000)
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const handleOnFinish = async () => {}
 
     return (
         <WrapperStyled>
-            {alert && (
-                <Alert
-                    message={alert}
-                    type="error"
-                    showIcon
-                    closable
-                    afterClose={() => setAlert(null)}
-                />
-            )}
             <div>
-                <TextStyled>
-                    Đăng nhập cùng <Text strong>Pate Team</Text>{' '}
-                </TextStyled>
-                <ParagraphStyled>
-                    Quản lý sân bóng của bạn một cách hiệu quả.
-                </ParagraphStyled>
+                <TextStyled>Pate Team</TextStyled>
+                <ParagraphStyled>Chào mừng bạn quay lại </ParagraphStyled>
             </div>
 
             <Form name="normal_login" form={form} onFinish={handleOnFinish}>
@@ -157,19 +156,41 @@ function Login() {
                     <Button
                         type="primary"
                         htmlType="submit"
-                        className="login-form-button"
+                        className="login-btn login-form-button"
                         size="large"
                     >
                         Đăng nhập
                     </Button>
                 </Item>
             </Form>
-            <Divider plain>
+            <Divider plain>Hoặc</Divider>
+            <div style={{ margin: '20px 0' }}>
+                <Button
+                    ghost
+                    htmlType="submit"
+                    className="login-btn login-facebook login-form-button"
+                    size="large"
+                >
+                    Đăng nhập bằng Facebook
+                </Button>
+            </div>
+            <div style={{ margin: '20px 0' }}>
+                <Button
+                    ghost
+                    htmlType="submit"
+                    className="login-btn login-google login-form-button"
+                    size="large"
+                >
+                    Đăng nhập bằng Google
+                </Button>
+            </div>
+
+            <div style={{ textAlign: 'center' }}>
                 Bạn chưa có tài khoản?{' '}
                 <Link to="/register" replace>
                     Đăng ký
                 </Link>
-            </Divider>
+            </div>
         </WrapperStyled>
     )
 }

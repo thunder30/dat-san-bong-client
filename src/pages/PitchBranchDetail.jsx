@@ -1,6 +1,6 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
-import { Row, Col, Card } from 'antd'
+import { useParams } from 'react-router-dom'
+import { Row, Col } from 'antd'
 import styled from 'styled-components'
 import DefaultLayout from '../layout/DefaultLayout'
 import background from '../assets/background-main.jpg'

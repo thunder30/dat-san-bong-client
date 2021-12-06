@@ -21,6 +21,33 @@ const WrapperStyled = styled.div`
         font-size: 1rem;
         margin-bottom: 1.3rem;
     }
+
+    .login-btn {
+        border-radius: 4px;
+    }
+    .login-form-button {
+        width: 100%;
+    }
+    .login-google {
+        color: #cf4332;
+        border-color: #cf4332;
+        text-shadow: none;
+        &:hover {
+            color: #fff;
+            border-color: #fff;
+            background-color: #cf4332;
+        }
+    }
+    .login-facebook {
+        color: #3d348b;
+        border-color: #3d348b;
+        text-shadow: none;
+        &:hover {
+            color: #fff;
+            border-color: #fff;
+            background-color: #3d348b;
+        }
+    }
 `
 
 const rulesEmail = [
@@ -82,30 +109,7 @@ function Register() {
     const { register } = useContext(AuthContext)
     let navigate = useNavigate()
 
-    useEffect(() => {
-        const idTimeOut = setTimeout(() => setAlert(null), 5000)
-        return () => {
-            clearTimeout(idTimeOut)
-        }
-    }, [alert])
-
-    console.log(registerForm)
-
-    const handleOnFinish = async () => {
-        try {
-            const data = await register(registerForm)
-            if (!data.success) {
-                setAlert(data.message)
-                //setTimeout(() => setAlert(null), 5000)
-            } else {
-                // đăng ký thành công
-                //  chuyển đến trang thông báo gửi mail
-                navigate('/confirm')
-            }
-        } catch (error) {
-            console.log(error)
-        }
-    }
+    const handleOnFinish = async () => {}
 
     const handleRegisterForm = (e) => {
         setRegisterForm({
@@ -116,19 +120,10 @@ function Register() {
 
     return (
         <WrapperStyled>
-            {alert && (
-                <Alert
-                    message={alert}
-                    type="error"
-                    showIcon
-                    closable
-                    afterClose={() => setAlert(null)}
-                />
-            )}
             <div>
-                <Text className="title">Đăng ký chủ sân</Text>
+                <Text className="title">Đăng ký tài khoản</Text>
                 <Paragraph className="desc">
-                    Quản lý sân bóng của bạn một cách hiệu quả.
+                    Nhận ưu đãi cho lần đặt sân đầu tiên
                 </Paragraph>
             </div>
 
@@ -190,12 +185,34 @@ function Register() {
                     </Button>
                 </Item>
             </Form>
-            <Divider plain>
-                Bạn đã có tài khoản?{' '}
+            <Divider plain>Hoặc</Divider>
+            <div style={{ margin: '20px 0' }}>
+                <Button
+                    ghost
+                    htmlType="submit"
+                    className="login-btn login-facebook login-form-button"
+                    size="large"
+                >
+                    Đăng nhập bằng Facebook
+                </Button>
+            </div>
+            <div style={{ margin: '20px 0' }}>
+                <Button
+                    ghost
+                    htmlType="submit"
+                    className="login-btn login-google login-form-button"
+                    size="large"
+                >
+                    Đăng nhập bằng Google
+                </Button>
+            </div>
+
+            <div style={{ textAlign: 'center' }}>
+                Bạn đã có tài khoản Pate Team?{' '}
                 <Link to="/login" replace>
                     Đăng nhập
                 </Link>
-            </Divider>
+            </div>
         </WrapperStyled>
     )
 }

@@ -2,3 +2,6 @@
 .site-layout .site-layout-background {
     background: #fff;
 }
+.ant-input-affix-wrapper {
+    border-radius: 6px;
+}
