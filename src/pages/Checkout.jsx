@@ -1,13 +1,7 @@
 import React, { useState } from 'react'
 import { Row, Col, Button, Input, Radio, Form, Image, Divider } from 'antd'
 import DefaultLayout from '../layout/DefaultLayout'
-import {
-    AimOutlined,
-    FieldTimeOutlined,
-    BorderOuterOutlined,
-} from '@ant-design/icons'
-
-import iconLocation from '../assets/checkout/location-sign-svgrepo-com.svg'
+import InfoBooking from '../components/InfoBooking'
 
 const { Item } = Form
 
@@ -105,56 +99,7 @@ function Checkout() {
                     </Form>
                 </Col>
                 <Col span={10} offset={2} style={infoBookingStyle}>
-                    <h1 style={{ textAlign: 'center' }}>Thông tin đặt sân</h1>
-                    <Row>
-                        <Col span={24}>
-                            <Row>
-                                <Col span={2}>
-                                    <Image
-                                        preview={false}
-                                        src={iconLocation}
-                                        alt="icon-location"
-                                        width={25}
-                                    />
-                                </Col>
-                                <Col>
-                                    <h3>Sân bóng hoàng gia Bà ba</h3>
-                                    <p>số 123, phường 7, Quận 5, TP.HCM</p>
-                                </Col>
-                            </Row>
-                        </Col>
-                        <Col span={24}>
-                            <Divider
-                                style={{
-                                    borderTop:
-                                        '1.5px solid rgba(0, 0, 0, 0.20)',
-                                    margin: '8px 0',
-                                }}
-                            />
-                            <p>Sân N3 (Sân 5) </p>
-                        </Col>
-                        <Col span={24}>
-                            <Divider
-                                style={{
-                                    borderTop:
-                                        '1.5px solid rgba(0, 0, 0, 0.20)',
-                                    margin: '8px 0',
-                                }}
-                            />
-                            <h3>Thời gian</h3>
-                            <p>06/12/2021 (06:00 - 08:30)</p>
-                        </Col>
-                        <Col span={24}>
-                            <Divider
-                                style={{
-                                    borderTop:
-                                        '1.5px solid rgba(0, 0, 0, 0.20)',
-                                    margin: '8px 0',
-                                }}
-                            />
-                            <h3>Tổng giá: 1,000,000 VND </h3>
-                        </Col>
-                    </Row>
+                    <InfoBooking />
                 </Col>
             </Row>
         </DefaultLayout>
