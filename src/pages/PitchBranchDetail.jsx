@@ -50,11 +50,11 @@ function PitchBranchDetail() {
                 </Col>
                 <Col span={24}>
                     <Row style={{ ...contentStyle, padding: '40px 0' }}>
-                        <Col span={18}>
+                        <Col className="gutter-row" span={17}>
                             {/* Thông tin sân bóng */}
                             <CreateBooking />
                         </Col>
-                        <Col span={6}>
+                        <Col className="gutter-row" span={6} offset={1}>
                             <PriceTable title="Bảng giá đặc biệt" />
                         </Col>
                         <Col span={24}>

@@ -1,5 +1,9 @@
 import React from 'react'
-import { Row, Col, Select } from 'antd'
+import { Navigate, Link } from 'react-router-dom'
+import { Row, Col, Select, Button, Divider, Image } from 'antd'
+import { getDateOfWeek } from '../../helpers'
+import mbappe from '../../assets/PitchBranchDetail/mbappe.jpg'
+import Feedback from '../Feedback'
 
 const { Option } = Select
 
@@ -52,7 +56,13 @@ const useTimes = [
     },
 ]
 
-const SelectComponent = ({ title, options }) => (
+const selectDate = getDateOfWeek().map(({ day, date }) => {
+    return {
+        displayName: `${day === 1 ? 'Chủ nhật' : 'Thứ ' + day} ngày ${date}`,
+    }
+})
+
+const SelectComponent = ({ title, options, ...rest }) => (
     <>
         <div
             style={{
@@ -63,7 +73,10 @@ const SelectComponent = ({ title, options }) => (
         >
             {title}
         </div>
-        <Select defaultValue="" style={{ width: 'auto', minWidth: 100 }}>
+        <Select
+            defaultValue=""
+            style={{ width: 'auto', minWidth: 100, ...rest }}
+        >
             {options.map(({ _id, displayName }, index) => (
                 <Option value={displayName} key={_id || index}>
                     {displayName}
@@ -74,24 +87,68 @@ const SelectComponent = ({ title, options }) => (
 )
 
 function BookingInfo() {
+    const isAuthenticated = true
     return (
-        <Row gutter={[0, 16]}>
-            <Col span={8}>
-                <SelectComponent title="Loại sân" options={pitchTypes} />
-            </Col>
-            <Col span={16}>
-                <SelectComponent title="Chọn ngày" options={pitches} />
-            </Col>
-            <Col span={8}>
-                <SelectComponent title="Sân" options={pitches} />
-            </Col>
-            <Col span={8}>
-                <SelectComponent title="Giờ bắt đầu" options={startTimes} />
-            </Col>
-            <Col span={8}>
-                <SelectComponent title="Sử dụng" options={useTimes} />
-            </Col>
-        </Row>
+        <>
+            <Row gutter={[0, 16]}>
+                <Col span={8}>
+                    <SelectComponent title="Loại sân" options={pitchTypes} />
+                </Col>
+                <Col span={8}>
+                    <SelectComponent title="Giờ bắt đầu" options={startTimes} />
+                </Col>
+                <Col span={8}>
+                    <SelectComponent title="Sử dụng" options={useTimes} />
+                </Col>
+                <Col span={8}>
+                    <SelectComponent title="Sân" options={pitches} />
+                </Col>
+                <Col span={16}>
+                    <SelectComponent
+                        title="Chọn ngày"
+                        options={selectDate}
+                        minWidth={170}
+                    />
+                </Col>
+                <Col span={8}>
+                    <Link to={isAuthenticated ? '/checkout' : '/login'}>
+                        <Button
+                            type="primary"
+                            style={{
+                                minWidth: 200,
+                            }}
+                        >
+                            Đặt sân
+                        </Button>
+                    </Link>
+                </Col>
+            </Row>
+            <Row style={{ margin: '50px 0' }}>
+                <Col span={24}>
+                    <h2>Thông tin sân bóng</h2>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Expedita ratione hic vitae id laborum perspiciatis
+                        mollitia aliquid perferendis inventore et! Lorem ipsum
+                        dolor sit, amet consectetur adipisicing elit. Suscipit
+                        officiis consequuntur ipsam dignissimos molestias eum?
+                    </p>
+                    <Divider />
+                </Col>
+
+                <Col span={24}>
+                    <h2>Hình ảnh</h2>
+                    <Image width={200} src={mbappe} />
+                    <Divider />
+                </Col>
+
+                <Col span={24}>
+                    <h2>Đánh giá</h2>
+                    <Feedback />
+                    <Divider />
+                </Col>
+            </Row>
+        </>
     )
 }
 
