@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { Row, Col } from 'antd'
+import { Row, Col, Spin } from 'antd'
 import styled from 'styled-components'
 import DefaultLayout from '../layout/DefaultLayout'
 import background from '../assets/background-main.jpg'
 import ListPitch from '../components/ListPitch'
 import CreateBooking from '../components/CreateBooking'
 import PriceTable from '../components/PriceTable'
+
+import { PitchBranchContext } from '../contexts/PitchBranchProvider'
 
 const contentStyle = {
     maxWidth: 1100,
@@ -41,7 +43,13 @@ const relativeBranches = [
 ]
 
 function PitchBranchDetail() {
+    const {
+        branchState: { branches, isLoading },
+    } = useContext(PitchBranchContext)
     const { id } = useParams()
+
+    if (isLoading) return <Spin />
+
     return (
         <DefaultLayout>
             <Row>

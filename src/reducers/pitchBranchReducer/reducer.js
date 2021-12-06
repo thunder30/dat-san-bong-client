@@ -3,6 +3,7 @@ import * as types from './constants'
 export const initialState = {
     branches: [],
     features: [],
+    current: null,
     isLoading: true,
 }
 

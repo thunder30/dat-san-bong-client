@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import { Row, Col, Input, AutoComplete, Select, Card } from 'antd'
+import { Row, Col, Input, AutoComplete, Select, Card, Spin } from 'antd'
 import styled from 'styled-components'
+import { PitchBranchContext } from '../contexts/PitchBranchProvider'
 import DefaultLayout from '../layout/DefaultLayout'
 import background from '../assets/background-main.jpg'
 
@@ -24,13 +25,16 @@ const PanerStyled = styled.div`
 const CardStyled = styled(Card)`
     text-align: center;
     border-radius: 10px;
+    h3 {
+        color: #fff;
+    }
     .ant-card-body {
         height: 250px;
         line-height: 202px;
     }
 `
 
-const branches = [
+const branches1 = [
     {
         _id: '5',
         displayName: 'Sân bà Sáu',
@@ -56,9 +60,16 @@ const branches = [
 const district = ['Quận 1', 'Quận 3', 'TP. Thủ Đức']
 
 function PitchBranch() {
+    const {
+        branchState: { branches, isLoading },
+    } = useContext(PitchBranchContext)
+
     const handleSearch = () => {
         console.log(`handle search`)
     }
+
+    if (isLoading) return <Spin />
+
     return (
         <DefaultLayout>
             <Row>
@@ -100,22 +111,29 @@ function PitchBranch() {
                         </Col>
                         <Col span={24}>
                             <Row gutter={[24, 24]}>
-                                {branches.map(({ _id, displayName }) => {
-                                    const url = '/pitchbranch/' + _id
-                                    return (
-                                        <Col
-                                            className="gutter-row"
-                                            span={6}
-                                            key={_id}
-                                        >
-                                            <Link to={url}>
-                                                <CardStyled hoverable>
-                                                    <h3>{displayName}</h3>
-                                                </CardStyled>
-                                            </Link>
-                                        </Col>
-                                    )
-                                })}
+                                {branches.map(
+                                    ({ _id, displayName, avatar }) => {
+                                        const url = '/pitchbranch/' + _id
+                                        return (
+                                            <Col
+                                                className="gutter-row"
+                                                span={6}
+                                                key={_id}
+                                            >
+                                                <Link to={url}>
+                                                    <CardStyled
+                                                        hoverable
+                                                        style={{
+                                                            backgroundImage: `url('${avatar}')`,
+                                                        }}
+                                                    >
+                                                        <h3>{displayName}</h3>
+                                                    </CardStyled>
+                                                </Link>
+                                            </Col>
+                                        )
+                                    }
+                                )}
                             </Row>
                         </Col>
                     </Row>

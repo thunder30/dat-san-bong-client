@@ -16,6 +16,7 @@ import Logout from '../pages/Logout'
 
 import { AuthContext } from '../contexts/AuthProvider'
 import PrivateRoute from './PrivateRoute'
+import PitchBranchProvider from '../contexts/PitchBranchProvider'
 
 function Router() {
     const {
