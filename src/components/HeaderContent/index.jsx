@@ -2,7 +2,7 @@ import React from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
 import { Layout, Row, Col } from 'antd'
-import logo from '../../assets/PateLogo.png'
+import logo from '../../assets/logo/pateIconBlue.png'
 
 const { Header } = Layout
 
