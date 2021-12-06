@@ -3,7 +3,10 @@ import * as types from './constants'
 export const initialState = {
     branches: [],
     features: [],
-    current: null,
+    current: {
+        pitchBranchId: null,
+        pitchTypes: [],
+    },
     isLoading: true,
 }
 
@@ -22,6 +25,12 @@ export default function reducer(state = initialState, action) {
         case types.LOAD_FAILED:
             return {
                 ...state,
+                isLoading: false,
+            }
+        case types.SET_CURRENT_BRANCH:
+            return {
+                ...state,
+                current: {...payload},
                 isLoading: false,
             }
         case types.SET_LOADING:

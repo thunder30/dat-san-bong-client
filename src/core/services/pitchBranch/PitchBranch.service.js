@@ -12,4 +12,15 @@ const getBranch = async () => {
     }
 }
 
-export { getBranch }
+const getBranchById = async (id) => {
+    try {
+        const res = await axios.get(API_BASE_URL + '/pitchbranch/getDetail/' + id)
+        return successHandler(res)
+    } catch (error) {
+        return errorHandler(error)
+    }
+}
+
+
+
+export { getBranch, getBranchById}

@@ -1,13 +1,15 @@
-import React from 'react'
+import React, {useContext, useState} from 'react'
 import { Link } from 'react-router-dom'
 import { Row, Col, Select, Button, Divider, Image } from 'antd'
 import { getDateOfWeek } from '../../helpers'
 import mbappe from '../../assets/PitchBranchDetail/mbappe.jpg'
 import Feedback from '../Feedback'
 
+import { PitchBranchContext } from '../../contexts/PitchBranchProvider'
+
 const { Option } = Select
 
-const pitchTypes = [
+const pitchTypes1 = [
     {
         _id: 'ls5',
         displayName: 'Sân 5',
@@ -62,7 +64,7 @@ const selectDate = getDateOfWeek().map(({ day, date }) => {
     }
 })
 
-const SelectComponent = ({ title, options, ...rest }) => (
+const SelectComponent = ({ title, options, ...props }) => (
     <>
         <div
             style={{
@@ -75,7 +77,8 @@ const SelectComponent = ({ title, options, ...rest }) => (
         </div>
         <Select
             defaultValue=""
-            style={{ width: 'auto', minWidth: 100, ...rest }}
+            style={{ width: 'auto', minWidth: 150, }}
+            {...props}
         >
             {options.map(({ _id, displayName }, index) => (
                 <Option value={displayName} key={_id || index}>
@@ -88,11 +91,27 @@ const SelectComponent = ({ title, options, ...rest }) => (
 
 function BookingInfo() {
     const isAuthenticated = true
+    const {
+        branchState: {current: {pitchTypes}},
+    } = useContext(PitchBranchContext)
+    const [state, setState] = useState({
+        pitchType: null,
+        pitches: [],
+    })
+    const handleChange = (value, {key}) => {
+        console.log(key, value)
+        const pitchType = pitchTypes.find(({_id}) => _id === key)
+        setState({
+            pitchType,
+            pitches: pitchType.pitches,
+            
+        })
+    }
     return (
         <>
             <Row gutter={[0, 16]}>
                 <Col span={8}>
-                    <SelectComponent title="Loại sân" options={pitchTypes} />
+                    <SelectComponent title="Loại sân" options={pitchTypes} onChange={handleChange}/>
                 </Col>
                 <Col span={8}>
                     <SelectComponent title="Giờ bắt đầu" options={startTimes} />
@@ -101,13 +120,12 @@ function BookingInfo() {
                     <SelectComponent title="Sử dụng" options={useTimes} />
                 </Col>
                 <Col span={8}>
-                    <SelectComponent title="Sân" options={pitches} />
+                    <SelectComponent title="Sân" options={state.pitches} />
                 </Col>
                 <Col span={16}>
                     <SelectComponent
                         title="Chọn ngày"
                         options={selectDate}
-                        minWidth={170}
                     />
                 </Col>
                 <Col span={8}>

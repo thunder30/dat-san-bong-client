@@ -24,11 +24,26 @@ function PitchBranchProvider({ children }) {
         }
     }
 
+    const getBranchById = async (id) => {
+        const data = await services.getBranchById(id)
+        if (data.success) {
+            dispatch({
+                type: types.SET_CURRENT_BRANCH,
+                payload: {pitchTypes: data.pitchTypes, pitchBranchId: id},
+            })
+        } else {
+            dispatch({
+                type: types.LOAD_FAILED,
+            })
+        }
+    }
+
+
     useEffect(() => {
         getBranch()
     }, [])
 
-    const value = { branchState }
+    const value = { branchState, getBranchById}
     return (
         <PitchBranchContext.Provider value={value}>
             {children}

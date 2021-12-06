@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Row, Col, Spin } from 'antd'
 import styled from 'styled-components'
@@ -44,11 +44,15 @@ const relativeBranches = [
 
 function PitchBranchDetail() {
     const {
-        branchState: { branches, isLoading },
+        branchState: {isLoading},
+        getBranchById
     } = useContext(PitchBranchContext)
     const { id } = useParams()
+    useEffect(() => {
+        getBranchById(id)
+    }, [])
+    if (isLoading) return <Spin /> 
 
-    if (isLoading) return <Spin />
 
     return (
         <DefaultLayout>
