@@ -16,7 +16,8 @@ import Logout from '../pages/Logout'
 
 import { AuthContext } from '../contexts/AuthProvider'
 import PrivateRoute from './PrivateRoute'
-import PitchBranchProvider from '../contexts/PitchBranchProvider'
+import RegisterOwner from '../components/auth/RegisterOwner'
+
 
 function Router() {
     const {
@@ -44,6 +45,7 @@ function Router() {
                 <Route path="profile" element={<Profile />} />
                 <Route path="mybooking" element={<MyBooking />} />
                 <Route path="changepassword" element={<ChangePassword />} />
+                <Route path="registerOwner" element={<RegisterOwner />} />
                 <Route path="logout" element={<Logout />} />
             </Route>
 
