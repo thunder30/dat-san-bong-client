@@ -11,14 +11,11 @@ import errorHandler from '../../../request/errorHandler'
 const getAuth = async () => {
     const token = getCookie(ACCESS_TOKEN_NAME)
     setHeaderToken(token)
-    //console.log(`token: `, token)
 
     try {
         const res = await axios.get(`${API_BASE_URL}/auth`)
-        //console.log('service success')
         return successHandler(res)
     } catch (error) {
-        //console.log('service error')
         removeCookie(ACCESS_TOKEN_NAME)
         setHeaderToken(null)
         return errorHandler(error)
@@ -33,9 +30,28 @@ const login = async ({ email, password }) => {
         })
 
         if (res.data.success) {
-            setCookie(ACCESS_TOKEN_NAME, res.data.accessToken)
+            if (res.data.roles.includes('KHACH_HANG')) {
+                setCookie(ACCESS_TOKEN_NAME, res.data.accessToken)
+            } else {
+                res.data.success = false
+                res.data.message = 'Sai email hoặc mật khẩu!'
+            }
+            // get user
         }
 
+        return successHandler(res)
+    } catch (error) {
+        return errorHandler(error)
+    }
+}
+
+const register = async ({ email, password }) => {
+    try {
+        const res = await axios.post(`${API_BASE_URL}/auth/register`, {
+            email,
+            password,
+            roles: ['KHACH_HANG'],
+        })
         return successHandler(res)
     } catch (error) {
         return errorHandler(error)
@@ -58,4 +74,4 @@ const token = {
     },
 }
 
-export { login, logout, getAuth, token }
+export { login, register, logout, getAuth, token }

@@ -23,20 +23,8 @@ const columns = [
     },
 ]
 
-function PriceTable({ title }) {
-    const dataSource = [
-        {
-            startTime: '07:00',
-            endTime: '16:00',
-            price: 200000,
-        },
-        {
-            startTime: '16:00',
-            endTime: '22:00',
-            price: 300000,
-        },
-    ]
-    return <DataTable title={title} columns={columns} dataSource={dataSource} />
+function PriceTable({ ...props }) {
+    return <DataTable columns={columns} {...props} />
 }
 
 export default PriceTable

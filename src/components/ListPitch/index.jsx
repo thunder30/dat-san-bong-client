@@ -6,6 +6,9 @@ import styled from 'styled-components'
 const CardStyled = styled(Card)`
     text-align: center;
     border-radius: 10px;
+    h3 {
+        color: #fff;
+    }
     .ant-card-body {
         height: 250px;
         line-height: 202px;
@@ -15,12 +18,17 @@ const CardStyled = styled(Card)`
 function ListPitch({ listPitch }) {
     return (
         <Row gutter={[24, 24]}>
-            {listPitch.map(({ _id, displayName }) => {
+            {listPitch.map(({ _id, displayName, avatar }) => {
                 const url = '/pitchbranch/' + _id
                 return (
                     <Col className="gutter-row" span={6} key={_id}>
                         <Link to={url}>
-                            <CardStyled hoverable>
+                            <CardStyled
+                                hoverable
+                                style={{
+                                    backgroundImage: `url('${avatar}')`,
+                                }}
+                            >
                                 <h3>{displayName}</h3>
                             </CardStyled>
                         </Link>

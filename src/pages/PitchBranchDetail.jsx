@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useLayoutEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Row, Col, Spin } from 'antd'
 import styled from 'styled-components'
@@ -6,7 +6,6 @@ import DefaultLayout from '../layout/DefaultLayout'
 import background from '../assets/background-main.jpg'
 import ListPitch from '../components/ListPitch'
 import CreateBooking from '../components/CreateBooking'
-import PriceTable from '../components/PriceTable'
 
 import { PitchBranchContext } from '../contexts/PitchBranchProvider'
 
@@ -21,57 +20,64 @@ const PanerStyled = styled.div`
     background-position: center;
     background-size: cover;
     height: 100%;
+    h1 {
+        color: #fff;
+        font-size: 1.5rem;
+        text-shadow: 0.3px 1px #e3e3e3;
+    }
 `
 
-const relativeBranches = [
-    {
-        _id: '10',
-        displayName: 'Sân bà Sáu',
-    },
-    {
-        _id: '11',
-        displayName: 'Sân bà Sáu',
-    },
-    {
-        _id: '12',
-        displayName: 'Sân bà Sáu',
-    },
-    {
-        _id: '13',
-        displayName: 'Sân bà Sáu',
-    },
-]
+const getRelativeBranches = (branches) => {
+    // sắp xếp giảm dần, và lấy 4 phần tử đầu tiên
+    const rs = [...branches]
+    rs.sort((a, b) => {
+        const _a = new Date(a.createdAt)
+        const _b = new Date(b.createdAt)
+        return _b - _a
+    })
+    if (rs.length > 4) rs.length = 4
+    return rs
+}
 
 function PitchBranchDetail() {
     const {
-        branchState: {isLoading},
-        getBranchById
+        branchState: {
+            isLoading,
+            branches,
+            current: { branch },
+        },
+        getBranchById,
     } = useContext(PitchBranchContext)
     const { id } = useParams()
-    useEffect(() => {
+    useLayoutEffect(() => {
         getBranchById(id)
-    }, [])
-    if (isLoading) return <Spin /> 
+    }, [id])
 
+    if (isLoading || !branch) return <Spin />
 
     return (
         <DefaultLayout>
             <Row>
                 <Col span={24} style={{ minHeight: '60vh' }}>
-                    <PanerStyled />
+                    <PanerStyled>
+                        <Row align="middle" style={contentStyle}>
+                            <Col span={20}>
+                                <h1>{branch?.displayName || ''}</h1>
+                            </Col>
+                        </Row>
+                    </PanerStyled>
                 </Col>
                 <Col span={24}>
                     <Row style={{ ...contentStyle, padding: '40px 0' }}>
-                        <Col className="gutter-row" span={17}>
+                        <Col className="gutter-row" span={24}>
                             {/* Thông tin sân bóng */}
                             <CreateBooking />
                         </Col>
-                        <Col className="gutter-row" span={6} offset={1}>
-                            <PriceTable title="Bảng giá đặc biệt" />
-                        </Col>
                         <Col span={24}>
                             <h1>Các sân bóng gần đây</h1>
-                            <ListPitch listPitch={relativeBranches} />
+                            <ListPitch
+                                listPitch={getRelativeBranches(branches)}
+                            />
                         </Col>
                     </Row>
                 </Col>

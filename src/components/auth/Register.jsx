@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { Form, Input, Button, Typography, Divider, Alert } from 'antd'
+import { Form, Input, Button, Typography, Divider, notification } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 import { AuthContext } from '../../contexts/AuthProvider'
@@ -78,14 +78,14 @@ const rulesPassword = [
         pattern: /(?=.*?[0-9])/,
         message: 'Ít nhất 1 ký tự số [0-9]',
     },
-    // {
-    //     pattern: /(?=.*?[#?!@$ %^&*-])/,
-    //     message: 'Ít nhất 1 ký tự đặc biệt [#?!@$ %^&*-]',
-    // },
     {
         pattern: /.{8,}$/,
         message: 'Mật khẩu tối thiểu 8 ký tự',
     },
+    // {
+    //     pattern: /(?=.*?[#?!@$ %^&*-])/,
+    //     message: 'Ít nhất 1 ký tự đặc biệt [#?!@$ %^&*-]',
+    // },
 ]
 
 const validateConfirm = ({ getFieldValue }) => ({
@@ -100,16 +100,26 @@ const validateConfirm = ({ getFieldValue }) => ({
 
 function Register() {
     const [form] = Form.useForm()
-    const [alert, setAlert] = useState(null)
+    let navigate = useNavigate()
     const [registerForm, setRegisterForm] = useState({
         email: '',
         password: '',
         confirmPassword: '',
     })
     const { register } = useContext(AuthContext)
-    let navigate = useNavigate()
 
-    const handleOnFinish = async () => {}
+    const handleOnFinish = async () => {
+        const data = await register(registerForm)
+        if (data.success) {
+            notification.success({
+                message: `Đăng ký thành công!`,
+                description: data.message || '',
+            })
+            navigate('/login')
+        } else {
+            console.log('register failed')
+        }
+    }
 
     const handleRegisterForm = (e) => {
         setRegisterForm({

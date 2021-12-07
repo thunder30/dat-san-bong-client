@@ -2,6 +2,8 @@ import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { Layout, Row, Col } from 'antd'
 import { FacebookOutlined } from '@ant-design/icons'
+import styled from 'styled-components'
+
 const { Footer } = Layout
 
 const contentStyle = {
@@ -9,6 +11,10 @@ const contentStyle = {
     margin: '0 auto',
     height: '100%',
 }
+
+const NavLinkStyled = styled(NavLink)`
+    display: block;
+`
 
 function FooterContent() {
     return (
@@ -24,38 +30,29 @@ function FooterContent() {
             <Row style={contentStyle}>
                 <Col span={4} offset={2}>
                     <h3>Về chúng tôi</h3>
-                    <NavLink to="/about" style={{ display: 'block' }}>
+                    <NavLinkStyled to="/about">
                         Giới thiệu về Pate
-                    </NavLink>
-                    <NavLink to="/blog" style={{ display: 'block' }}>
-                        Blog
-                    </NavLink>
-                    <NavLink to="/privacy" style={{ display: 'block' }}>
+                    </NavLinkStyled>
+                    <NavLinkStyled to="/blog">Blog</NavLinkStyled>
+                    <NavLinkStyled to="/privacy">
                         Chính sách bảo mật
-                    </NavLink>
+                    </NavLinkStyled>
                 </Col>
                 <Col span={4} offset={2}>
                     <h3>Thông tin liên hệ</h3>
                     <a
                         href="https://shopee.vn/"
-                        style={{ display: 'block' }}
                         target="_blank"
                         rel="noreferrer"
                     >
                         <FacebookOutlined />
                     </a>
-                    <NavLink to="/blog" style={{ display: 'block' }}>
-                        support@pate.com
-                    </NavLink>
+                    <NavLinkStyled to="/blog">support@pate.com</NavLinkStyled>
                 </Col>
                 <Col span={4} offset={2}>
                     <h3>Thanh toán</h3>
-                    <NavLink to="/blog" style={{ display: 'block' }}>
-                        Momo
-                    </NavLink>
-                    <NavLink to="/blog" style={{ display: 'block' }}>
-                        Banking
-                    </NavLink>
+                    <NavLinkStyled to="/blog">Momo</NavLinkStyled>
+                    <NavLinkStyled to="/blog">Banking</NavLinkStyled>
                 </Col>
                 <Col span={4} offset={1}>
                     <h3>Ứng dụng di động</h3>

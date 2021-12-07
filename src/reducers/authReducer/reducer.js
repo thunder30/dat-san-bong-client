@@ -1,26 +1,35 @@
-import { SET_AUTH, SET_CONFIRM, SET_EMAIL_VERIFY } from './constants'
+import * as types from './constants'
 
 export const initialState = {
     isAuthenticated: false,
     user: null,
     isLoading: true,
-    isRegister: false,
-    isEmailVerify: false,
 }
 
 function reducer(state = initialState, { type, payload }) {
+    console.log(`reduce - payload: `, payload)
     switch (type) {
-        case SET_AUTH:
-            return { ...state, ...payload }
-        case SET_CONFIRM:
+        case types.AUTH_SUCCESS:
             return {
                 ...state,
-                ...payload,
+                user: payload,
+                isLoading: false,
+                isAuthenticated: true,
             }
-        case SET_EMAIL_VERIFY:
+        case types.AUTH_FAILED:
+            return {
+                ...initialState,
+                isLoading: false,
+            }
+        case types.AUTH_RESET:
+            return {
+                ...initialState,
+                isLoading: false,
+            }
+        case types.AUTH_LOADING:
             return {
                 ...state,
-                ...payload,
+                isLoading: true,
             }
         default:
             return state

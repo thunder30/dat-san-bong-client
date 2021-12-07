@@ -4,7 +4,7 @@ export const initialState = {
     branches: [],
     features: [],
     current: {
-        pitchBranchId: null,
+        branch: null,
         pitchTypes: [],
     },
     isLoading: true,
@@ -15,7 +15,12 @@ export default function reducer(state = initialState, action) {
     switch (type) {
         case types.LOAD_SUCCESS:
             const branches = payload
-            const features = branches.filter(({ isFeature }) => isFeature)
+            let features = []
+            if (branches.length < 5) features = [...branches]
+            else
+                for (let i = 0; i < 4; i++) {
+                    features.push(branches[i])
+                }
             return {
                 ...state,
                 branches,
@@ -28,9 +33,13 @@ export default function reducer(state = initialState, action) {
                 isLoading: false,
             }
         case types.SET_CURRENT_BRANCH:
+            const { pitchBranchId, pitchTypes } = payload
+            const branch = state.branches.find(
+                ({ _id }) => _id === pitchBranchId
+            )
             return {
                 ...state,
-                current: {...payload},
+                current: { branch, pitchTypes },
                 isLoading: false,
             }
         case types.SET_LOADING:

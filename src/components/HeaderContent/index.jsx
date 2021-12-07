@@ -1,42 +1,62 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import styled from 'styled-components'
-import { Layout, Row, Col } from 'antd'
+import { Layout, Row, Col, Menu, Dropdown, Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+
 import logo from '../../assets/logo/pateIconBlue.png'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 const { Header } = Layout
-
-const LogoStyled = styled.div`
-    display: inline-block;
-    height: 48px;
-    width: 200px;
-    margin: 8px;
-    background: #38b15d;
-`
+const { Item } = Menu
 
 const NavStyled = styled.nav`
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
-    z-index: 1030;
+    z-index: 99;
     background-color: #fff !important;
 `
 
-const WrapperStyled = styled.div`
-    display: flex;
-    align-items: center;
-    justify-contents: space-between;
-    ul {
-        display: inline-block;
-        li {
-            display: inline;
-            margin-left: 16px;
-        }
-    }
-`
+const DropdownMenu = () => (
+    <Menu>
+        <Item key="profile">
+            <Link to="/profile" />
+            Thông tin cá nhân
+        </Item>
+        <Item key="logout">
+            <Link to="/logout" />
+            Đăng xuất
+        </Item>
+    </Menu>
+)
+
+const NavLinkForUser = ({ user }) => {
+    return (
+        <>
+            <Col className="gutter-row">
+                <NavLink to="/register">Đăng ký chủ sân</NavLink>
+            </Col>
+            <Col>
+                <Dropdown
+                    overlay={() => DropdownMenu()}
+                    placement="bottomRight"
+                    arrow
+                >
+                    <NavLink to="/profile">
+                        <Avatar icon={<UserOutlined />} src={user.avatar} />
+                    </NavLink>
+                </Dropdown>
+            </Col>
+        </>
+    )
+}
 
 function HeaderContent() {
+    const {
+        authState: { user, isAuthenticated },
+    } = useContext(AuthContext)
     return (
         <Header
             className="site-layout"
@@ -50,7 +70,8 @@ function HeaderContent() {
                     justify="space-between"
                     align="middle"
                     style={{
-                        margin: '0 50px',
+                        marginLeft: 50,
+                        marginRight: 50,
                     }}
                 >
                     <Col>
@@ -69,30 +90,17 @@ function HeaderContent() {
                                     Quản lý sân bóng
                                 </a>
                             </Col>
-                            <Col className="gutter-row">
-                                <NavLink to="/register">
-                                    Đăng ký chủ sân
-                                </NavLink>
-                            </Col>
-                            <Col className="gutter-row">
-                                <NavLink to="/login">Đăng nhập</NavLink>
-                            </Col>
+                            {!isAuthenticated ? (
+                                <Col className="gutter-row">
+                                    <NavLink to="/login">Đăng nhập</NavLink>
+                                </Col>
+                            ) : (
+                                <NavLinkForUser user={user} />
+                            )}
                         </Row>
                     </Col>
                 </Row>
             </NavStyled>
-            {/* <NavStyled>
-                <WrapperStyled>
-                    <ul>
-                        <li>
-                            
-                        </li>
-                        <li>
-                            
-                        </li>
-                    </ul>
-                </WrapperStyled>
-            </NavStyled> */}
         </Header>
     )
 }

@@ -65,7 +65,6 @@ function Login() {
     })
 
     const [remember, setRemember] = useState(false)
-    const [alert, setAlert] = useState(null)
 
     const handleUser = (e) => {
         e.preventDefault()
@@ -82,7 +81,9 @@ function Login() {
     const [form] = Form.useForm()
 
     // submit form
-    const handleOnFinish = async () => {}
+    const handleOnFinish = async () => {
+        await login(loginForm)
+    }
 
     return (
         <WrapperStyled>

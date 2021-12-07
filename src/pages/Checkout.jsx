@@ -1,7 +1,11 @@
-import React, { useState } from 'react'
-import { Row, Col, Button, Input, Radio, Form, Image, Divider } from 'antd'
+import React, { useState, useContext } from 'react'
+import { useNavigate, Navigate } from 'react-router-dom'
+import { Row, Col, Button, Input, Radio, Form, notification } from 'antd'
 import DefaultLayout from '../layout/DefaultLayout'
 import InfoBooking from '../components/InfoBooking'
+import { BookingContext } from '../contexts/BookingProvider'
+import { PitchBranchContext } from '../contexts/PitchBranchProvider'
+import { AuthContext } from '../contexts/AuthProvider'
 
 const { Item } = Form
 
@@ -20,15 +24,24 @@ const infoBookingStyle = {
 }
 
 function Checkout() {
+    const { bookingState, confirmBooking } = useContext(BookingContext)
+    const { branchState } = useContext(PitchBranchContext)
+    const {
+        authState: { user },
+    } = useContext(AuthContext)
+    let navigate = useNavigate()
+
     const [form] = Form.useForm()
     const [booking, setBooking] = useState({
-        fullName: '',
-        email: '',
+        name: `${user.firstName} ${user.lastName}`,
+        phone: user.phone,
         typePay: 'Thanh toán online',
     })
+
+    console.log(booking)
+
     const handleChangeRadio = (e) => {
         e.preventDefault()
-        console.log(`is paid: `, e.target.value)
         setBooking((prev) => ({
             ...prev,
             typePay: e.target.value,
@@ -41,35 +54,59 @@ function Checkout() {
             [e.target.name]: e.target.value,
         }))
     }
-    const handleOnFinish = (value) => {
+    const handleOnFinish = async (value) => {
         console.log(value)
+        const { startTime, endTime, pitch } = bookingState.current
+        const _booking = {
+            startTime,
+            endTime,
+            customer: user._id,
+            pitch: pitch._id,
+            name: value.name,
+            phone: value.phone,
+        }
+        console.log(_booking)
+        // call api booking confirm
+        const data = await confirmBooking(_booking)
+        if (data.success) {
+            notification.success({
+                duration: 5,
+                description: 'Đặt sân thành công!',
+            })
+            navigate('/profile')
+        }
     }
+
+    if (bookingState.isLoading || branchState.isLoading)
+        return <Navigate to="/" />
+
     return (
         <DefaultLayout>
             <Row justify="center" align="middle" style={contentStyle}>
                 <Col span={10} style={{ padding: '5px' }}>
                     <h1>Thông tin người đặt</h1>
                     <Form
-                        name="normal_booking"
+                        name="normal_login"
                         form={form}
+                        initialValues={{
+                            name: booking.name,
+                            phone: booking.phone,
+                        }}
+                        layout="vertical"
                         onFinish={handleOnFinish}
                     >
-                        <Item name="fullName">
+                        <Item label="Họ tên" name="name">
                             <Input
-                                name="fullName"
-                                placeholder="Họ tên"
-                                value={booking.fullName}
+                                name="name"
+                                value={booking.name}
                                 onChange={handleChangeBooking}
-                                disabled
                             />
                         </Item>
-                        <Item name="email">
+                        <Item label="Số điện thoại" name="phone">
                             <Input
-                                name="email"
-                                placeholder="Email"
-                                value={booking.email}
+                                name="phone"
+                                value={booking.phone}
                                 onChange={handleChangeBooking}
-                                disabled
                             />
                         </Item>
                         <Item>
@@ -99,7 +136,10 @@ function Checkout() {
                     </Form>
                 </Col>
                 <Col span={10} offset={2} style={infoBookingStyle}>
-                    <InfoBooking />
+                    <InfoBooking
+                        booking={bookingState.current}
+                        branch={branchState.current.branch}
+                    />
                 </Col>
             </Row>
         </DefaultLayout>

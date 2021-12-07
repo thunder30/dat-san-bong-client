@@ -1,0 +1,6 @@
+export const CHECK_BOOKING = 'CHECK_BOOKING'
+export const CONFIRM_BOOKING = 'CONFIRM_BOOKING'
+export const SET_BOOKING = 'SET_BOOKING'
+export const SET_LOADING = 'SET_LOADING'
+export const LOAD_SUCCESS = 'LOAD_SUCCESS'
+export const LOAD_FAILED = 'LOAD_FAILED'

@@ -47,6 +47,9 @@ const WrapperStyled = styled.div`
 const CardStyled = styled(Card)`
     text-align: center;
     border-radius: 10px;
+    h3 {
+        color: #fff;
+    }
     .ant-card-body {
         height: 250px;
         line-height: 202px;
@@ -82,7 +85,7 @@ const pitchBranches = [
 
 function Home() {
     const {
-        branchState: { branches },
+        branchState: { features },
     } = useContext(PitchBranchContext)
 
     return (
@@ -121,23 +124,30 @@ function Home() {
                             </WrapperStyled>
                         </Col>
                         <Col className="gutter-row" span={24}>
-                            <Row gutter={[24]} justify="center">
-                                {pitchBranches.map(({ _id, displayName }) => {
-                                    const url = '/pitchbranch/' + _id
-                                    return (
-                                        <Col
-                                            className="gutter-row"
-                                            span={6}
-                                            key={_id}
-                                        >
-                                            <Link to={url}>
-                                                <CardStyled hoverable>
-                                                    <h3>{displayName}</h3>
-                                                </CardStyled>
-                                            </Link>
-                                        </Col>
-                                    )
-                                })}
+                            <Row gutter={[24]}>
+                                {features.map(
+                                    ({ _id, displayName, avatar }) => {
+                                        const url = '/pitchbranch/' + _id
+                                        return (
+                                            <Col
+                                                className="gutter-row"
+                                                span={6}
+                                                key={_id}
+                                            >
+                                                <Link to={url}>
+                                                    <CardStyled
+                                                        hoverable
+                                                        style={{
+                                                            backgroundImage: `url('${avatar}')`,
+                                                        }}
+                                                    >
+                                                        <h3>{displayName}</h3>
+                                                    </CardStyled>
+                                                </Link>
+                                            </Col>
+                                        )
+                                    }
+                                )}
                             </Row>
                         </Col>
                         <Col

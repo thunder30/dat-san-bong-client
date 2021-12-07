@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import { Routes, Route, Navigate, Outlet } from 'react-router-dom'
+import styled from 'styled-components'
 
 import PublicRoute from './PublicRoute'
 import Login from '../pages/Login'
@@ -16,14 +17,27 @@ import Logout from '../pages/Logout'
 
 import { AuthContext } from '../contexts/AuthProvider'
 import PrivateRoute from './PrivateRoute'
-import PitchBranchProvider from '../contexts/PitchBranchProvider'
+import { Spin } from 'antd'
+
+const WrapperStyled = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+`
 
 function Router() {
     const {
         authState: { isLoading },
     } = useContext(AuthContext)
 
-    //  if (isLoading) return console.log(`loading`)
+    if (isLoading)
+        return (
+            <WrapperStyled>
+                {' '}
+                <Spin size="large" tip="Loading..." />{' '}
+            </WrapperStyled>
+        )
 
     return (
         <Routes>

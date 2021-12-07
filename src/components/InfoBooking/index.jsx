@@ -1,13 +1,33 @@
-import React from 'react'
-import { Row, Col, Divider, Image } from 'antd'
+import React, { useState } from 'react'
+import { Row, Col, Divider } from 'antd'
 
 import clockIcon from '../../assets/checkout/clockIconBlue.png'
 import pitchIcon from '../../assets/checkout/pitchIconBlue.png'
 import locationIcon from '../../assets/checkout/locationIconBlue.png'
+import toCommas from '../../helpers/toCommas'
 
-import iconLocation from '../../assets/checkout/location-sign-svgrepo-com.svg'
-
-function InfoBooking() {
+function InfoBooking({ branch, booking }) {
+    const [state, setState] = useState(() => {
+        const { startTime, endTime, pitch, price } = booking
+        const date = startTime.split(' ')[0]
+        return {
+            pitchName: pitch.displayName,
+            pitchTypeName: pitch.pitchTypeName,
+            start: startTime.split(' ')[1],
+            end: endTime.split(' ')[1],
+            date,
+            price: toCommas(price),
+        }
+    })
+    const InfoBranch = () => {
+        const { displayName, address, ward, district, province } = branch
+        return (
+            <>
+                <h4>{displayName}</h4>
+                <span>{`${address}, ${ward}, ${district}, ${province}`}</span>
+            </>
+        )
+    }
     return (
         <>
             <h1 style={{ textAlign: 'center' }}>Thông tin đặt sân</h1>
@@ -18,12 +38,11 @@ function InfoBooking() {
                             <img
                                 src={locationIcon}
                                 alt="icon-location"
-                                width={25}
+                                width={20}
                             />
                         </Col>
                         <Col>
-                            <h3>Sân bóng hoàng gia Bà ba</h3>
-                            <p>số 123, phường 7, Quận 5, TP.HCM</p>
+                            <InfoBranch />
                         </Col>
                     </Row>
                 </Col>
@@ -34,10 +53,20 @@ function InfoBooking() {
                         }}
                     />
 
-                    <img src={pitchIcon} alt="icon-location" width={25} />
-                    <span style={{ marginLeft: 10 }}>Sân N3 (Sân 5) </span>
+                    <p>
+                        <img src={pitchIcon} alt="icon-location" width={20} />
+                        <span style={{ marginLeft: 10 }}>
+                            {state.pitchName} {`(${state.pitchTypeName})`}
+                        </span>
+                    </p>
+                    <p>
+                        <img src={clockIcon} alt="clock-icon" width={20} />
+                        <span style={{ marginLeft: 10 }}>
+                            {state.date} {`(${state.start} - ${state.end})`}
+                        </span>
+                    </p>
                 </Col>
-                <Col span={24}>
+                {/* <Col span={24}>
                     <Divider
                         style={{
                             borderTop: '1.5px solid rgba(0, 0, 0, 0.20)',
@@ -46,7 +75,7 @@ function InfoBooking() {
                     <img src={clockIcon} alt="clock-icon" width={25} />
                     <span style={{ marginLeft: 10 }}>Thời gian</span>
                     <p style={{ marginLeft: 35 }}>06/12/2021 (06:00 - 08:30)</p>
-                </Col>
+                </Col> */}
                 <Col span={24}>
                     <Divider
                         style={{
@@ -54,7 +83,7 @@ function InfoBooking() {
                             margin: '8px 0',
                         }}
                     />
-                    <h3>Tổng giá: 1,000,000 VND </h3>
+                    <h3>Tổng tiền: {state.price} VND </h3>
                 </Col>
             </Row>
         </>
