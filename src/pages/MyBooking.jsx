@@ -3,6 +3,9 @@ import { Row, Col, Table, Spin } from 'antd'
 import ProfileLayout from '../layout/ProfileLayout'
 import { AuthContext } from '../contexts/AuthProvider'
 import { BookingContext } from '../contexts/BookingProvider'
+import getCodeOfBooking from '../helpers/getCodeOfBooking'
+import {convertBookingToTime, convertToDate} from '../helpers'
+import toCommas from '../helpers/toCommas'
 
 const columns = [
     {
@@ -17,7 +20,7 @@ const columns = [
     },
     {
         title: 'Giá',
-        dataSource: 'price',
+        dataIndex: 'price',
         key: 'price',
     },
     {
@@ -26,7 +29,7 @@ const columns = [
         key: 'pitch',
     },
     {
-        title: 'Thời gian đặt chỗ',
+        title: 'Thời gian đá',
         dataIndex: 'bookingTime',
         key: 'bookingTime',
     },
@@ -42,28 +45,6 @@ const columns = [
     },
 ]
 
-
-const data = [
-    {
-        key: '1',
-        code: '1',
-        price: '1',
-        pitch: '1',
-        bookingTime: '1',
-        status: '1',
-        bookingDate: '1',
-    },
-    {
-        key: '2',
-        code: '2',
-        price: '1',
-        pitch: '1',
-        bookingTime: '1',
-        status: '1',
-        bookingDate: '1',
-    },
-    
-]
 
 const contentStyle = {
     border: '1px solid #eee',
@@ -84,16 +65,16 @@ function MyBooking() {
     console.log(`history booking: `, bookings)
 
     const dataSource = bookings.map(({bookingDetails}, index) => {
-        return bookingDetails.map(({pitch, booking, price, status,createdAt}, index) => {
+        return bookingDetails.map(({pitch, _id, price, status,createdAt, startTime, endTime}) => {
             return {
-                key: index,
+                key: _id,
                 stt: index + 1,
-                code: '',
-                price,
+                code: getCodeOfBooking(_id),
+                price: toCommas(price) + ' VND',
                 pitch: pitch.displayName,
-                bookingTime: '',
+                bookingTime: convertBookingToTime(startTime,endTime),
                 status: status.description,
-                bookingDate: createdAt,
+                bookingDate: convertToDate(createdAt),
             }
         })
 
@@ -122,7 +103,7 @@ function MyBooking() {
                     <h3>Lịch sử đặt sân</h3>
                     <Table
                         columns={columns}
-                        dataSource={dataSource}
+                        dataSource={dataSource.flat()}
                         pagination={pagination}
                         loading={isLoadingBooking}
                     />

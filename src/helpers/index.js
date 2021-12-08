@@ -60,4 +60,18 @@ const getRangeTime = (_startTime, _endTime) => {
     return ranges
 }
 
-export { getAllDayOfWeek, timestrToSec, formatTime, getRangeTime }
+const convertBookingToTime = (startTime, endTime) => {
+    return `${startTime.split(' ')[1]} - ${endTime.split(' ')[1]} ${startTime.split(' ')[0]}`
+}
+
+const convertToDate = (timestamps) => {
+    const date = new Date(timestamps)
+    const [day, month, year] = [
+        date.getDate(),
+        date.getMonth() + 1,
+        date.getFullYear(),
+    ]
+    return `${day}/${month}/${year}`
+}
+
+export { getAllDayOfWeek, timestrToSec, formatTime, getRangeTime, convertBookingToTime, convertToDate }
