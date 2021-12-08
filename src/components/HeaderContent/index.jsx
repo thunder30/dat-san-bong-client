@@ -35,9 +35,9 @@ const DropdownMenu = () => (
 const NavLinkForUser = ({ user }) => {
     return (
         <>
-            <Col className="gutter-row">
+            {/* <Col className="gutter-row">
                 <NavLink to="/register">Đăng ký chủ sân</NavLink>
-            </Col>
+            </Col> */}
             <Col>
                 <Dropdown
                     overlay={() => DropdownMenu()}
