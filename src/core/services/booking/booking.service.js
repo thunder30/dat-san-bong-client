@@ -56,4 +56,17 @@ const confirmBooking = async ({
     }
 }
 
-export { checkBooking, confirmBooking }
+const getHistoryBooking = async (userId) => {
+    const token = getCookie(ACCESS_TOKEN_NAME)
+    setHeaderToken(token)
+    try {
+        const res = await axios.get(
+            `${API_BASE_URL}/booking?customerId=${userId}`
+        )
+        return successHandler(res)
+    } catch (error) {
+        return errorHandler(error)
+    }
+}
+
+export { checkBooking, confirmBooking, getHistoryBooking }

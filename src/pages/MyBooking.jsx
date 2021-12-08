@@ -1,6 +1,8 @@
-import React from 'react'
-import { Row, Col, Table } from 'antd'
+import React, { useContext, useEffect } from 'react'
+import { Row, Col, Table, Spin } from 'antd'
 import ProfileLayout from '../layout/ProfileLayout'
+import { AuthContext } from '../contexts/AuthProvider'
+import { BookingContext } from '../contexts/BookingProvider'
 
 const columns = [
     {
@@ -49,7 +51,22 @@ const contentStyle = {
 }
 
 function MyBooking() {
-    const isLoading = true
+    const {
+        authState: { user, isLoading },
+    } = useContext(AuthContext)
+    const {
+        bookingState: { bookings, isLoading: isLoadingBooking },
+        getHistoryBooking,
+    } = useContext(BookingContext)
+
+    console.log(`history booking: `, bookings)
+
+    useEffect(() => {
+        getHistoryBooking(user._id)
+    }, [])
+
+    if (isLoading) return <Spin />
+
     return (
         <ProfileLayout>
             <Row style={contentStyle}>
@@ -57,9 +74,9 @@ function MyBooking() {
                     <h3>Lịch sử đặt sân</h3>
                     <Table
                         columns={columns}
-                        dataSource={dataSource}
+                        dataSource={bookings}
                         pagination={pagination}
-                        loading={isLoading}
+                        loading={isLoadingBooking}
                     />
                 </Col>
             </Row>

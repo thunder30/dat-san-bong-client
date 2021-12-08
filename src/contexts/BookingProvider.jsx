@@ -39,7 +39,33 @@ function BookingProvider({ children }) {
         return data
     }
 
-    const value = { bookingState, checkBooking, confirmBooking }
+    const getHistoryBooking = async (userId) => {
+        dispatch({
+            type: types.SET_LOADING,
+            payload: true,
+        })
+
+        const data = await services.getHistoryBooking(userId)
+        console.log(`bookings data: `, data)
+        if (data.success) {
+            dispatch({
+                type: types.LOAD_SUCCESS,
+                payload: data.bookings,
+            })
+        } else {
+            dispatch({
+                type: types.LOAD_FAILED,
+            })
+        }
+        return data
+    }
+
+    const value = {
+        bookingState,
+        checkBooking,
+        confirmBooking,
+        getHistoryBooking,
+    }
     return (
         <BookingContext.Provider value={value}>
             {children}

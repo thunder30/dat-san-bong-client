@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Row, Col, Avatar, Upload } from 'antd'
+import { Row, Col, Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
 import styled from 'styled-components'
 
+import { AuthContext } from '../../contexts/AuthProvider'
 import DefaultLayout from '../DefaultLayout'
-import { UserOutlined } from '@ant-design/icons'
 
 const contentStyle = {
     maxWidth: 1100,
@@ -29,6 +30,11 @@ const AvatarStyled = styled(Avatar)`
 `
 
 function Profile({ children }) {
+    const {
+        authState: {
+            user: { avatar },
+        },
+    } = useContext(AuthContext)
     return (
         <DefaultLayout>
             <Row gutter={[24, 24]} style={{ ...contentStyle }}>
@@ -38,7 +44,7 @@ function Profile({ children }) {
                             <AvatarStyled
                                 icon={<UserOutlined />}
                                 size="large"
-                                src="https://joeschmoe.io/api/v1/random"
+                                src={avatar} //"https://joeschmoe.io/api/v1/random"
                             />
                         </Col>
                         <Col span={18} offset={4}>

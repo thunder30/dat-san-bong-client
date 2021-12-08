@@ -73,7 +73,7 @@ function Checkout() {
                 duration: 5,
                 description: 'Đặt sân thành công!',
             })
-            navigate('/profile')
+            navigate('/mybooking')
         }
     }
 

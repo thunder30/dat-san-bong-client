@@ -5,3 +5,9 @@
 .ant-input-affix-wrapper {
     border-radius: 6px;
 }
+.ant-input {
+    border-radius: 6px;
+}
+.ant-select-selector {
+    border-radius: 6px !important;
+}

@@ -66,7 +66,7 @@ const SelectComponent = ({ title, options, style, ...props }) => (
             {title}
         </div>
         <Select
-            defaultValue=""
+            defaultValue={options[0]?.displayName || ''}
             style={{ width: 'auto', minWidth: 120, ...style }}
             {...props}
         >

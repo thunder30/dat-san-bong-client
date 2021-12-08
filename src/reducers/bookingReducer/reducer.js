@@ -15,6 +15,17 @@ export default function reducer(state = initialState, action) {
                 current: payload,
                 isLoading: false,
             }
+        case types.LOAD_SUCCESS:
+            return {
+                ...state,
+                bookings: payload,
+                isLoading: false,
+            }
+        case types.LOAD_FAILED:
+            return {
+                ...state,
+                isLoading: false,
+            }
         case types.SET_LOADING:
             return {
                 ...state,
