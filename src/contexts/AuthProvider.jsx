@@ -1,6 +1,7 @@
 import React, { createContext, useEffect, useReducer } from 'react'
 import { useNavigate } from 'react-router-dom'
-import * as authService from '../core/services/auth'
+import * as authServices from '../core/services/auth'
+import * as userServices from '../core/services/user'
 import * as types from '../reducers/authReducer/constants'
 import reducer, { initialState } from '../reducers/authReducer/reducer'
 
@@ -15,7 +16,7 @@ function AuthProvider({ children }) {
     console.log(`Authenticated: `, authState.isAuthenticated)
     // call api loadUser
     const getAuth = async () => {
-        const data = await authService.getAuth()
+        const data = await authServices.getAuth()
         if (data.success) {
             dispatch({
                 type: types.AUTH_SUCCESS,
@@ -28,6 +29,12 @@ function AuthProvider({ children }) {
         }
     }
 
+    const updateUser = async (user, _id) => {
+        const data = await userServices.updateUser(user, _id)
+        if (data.success) getAuth()
+        return data
+    }
+
     useEffect(() => {
         console.log(`useEffect Auth`)
         getAuth()
@@ -37,7 +44,7 @@ function AuthProvider({ children }) {
         dispatch({
             type: types.AUTH_LOADING,
         })
-        const data = await authService.login({ email, password })
+        const data = await authServices.login({ email, password })
         if (data.success) {
             getAuth()
             navigate('/', { replace: true })
@@ -47,7 +54,7 @@ function AuthProvider({ children }) {
     }
 
     const register = async ({ email, password }) => {
-        const data = await authService.register({ email, password })
+        const data = await authServices.register({ email, password })
         return data
     }
 
@@ -55,13 +62,13 @@ function AuthProvider({ children }) {
         dispatch({
             type: types.AUTH_LOADING,
         })
-        await authService.logout()
+        await authServices.logout()
         dispatch({
             type: types.AUTH_RESET,
         })
     }
 
-    const value = { login, register, logout, authState }
+    const value = { login, register, logout, updateUser, authState }
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

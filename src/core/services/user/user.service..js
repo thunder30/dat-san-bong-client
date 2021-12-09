@@ -3,14 +3,16 @@ import { API_BASE_URL, ACCESS_TOKEN_NAME } from '../../../config'
 import successHandler from '../../../request/successHandler'
 import errorHandler from '../../../request/errorHandler'
 import setHeaderToken from '../../../helpers/setHeaderToken'
-import { getCookie } from './cookie'
+import { getCookie } from '../auth/cookie'
 
-const updateUser = (user) => {
+const updateUser = async (user, _id) => {
     const token = getCookie(ACCESS_TOKEN_NAME)
     setHeaderToken(token)
-
     try {
-        const res = axios.put(API_BASE_URL + `/users/${user._id}`, user)
+        const res = await axios.put(API_BASE_URL + `/users/${_id}`, {
+            ...user,
+            roles: ['KHACH_HANG'],
+        })
         return successHandler(res)
     } catch (error) {
         return errorHandler(error)

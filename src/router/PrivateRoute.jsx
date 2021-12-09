@@ -1,9 +1,13 @@
-import React from 'react'
-import { Outlet, Navigate } from 'react-router'
+import React, { useContext } from 'react'
+import { Outlet, Navigate } from 'react-router-dom'
+import { token } from '../core/services/auth'
+import { AuthContext } from '../contexts/AuthProvider'
 
 function PrivateRoute() {
-    const isAuthenticated = true
-    const accessToken = 'token'
+    const {
+        authState: { isAuthenticated },
+    } = useContext(AuthContext)
+    const accessToken = token.get()
     return isAuthenticated && accessToken ? (
         <Outlet />
     ) : (

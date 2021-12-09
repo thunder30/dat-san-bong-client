@@ -1,7 +1,8 @@
-import React, { useContext, useState } from 'react'
-import { Row, Col, Form, Input, Button, Select } from 'antd'
+import React, { useContext, useEffect, useState } from 'react'
+import { Row, Col, Form, Input, Button, Select, notification } from 'antd'
 import ProfileLayout from '../layout/ProfileLayout'
 import { AuthContext } from '../contexts/AuthProvider'
+import Spinner from '../components/Spinner'
 
 const { Item } = Form
 const { Option } = Select
@@ -170,30 +171,12 @@ const provinces = [
 
 function Profile() {
     const {
-        authState: {
-            user: {
-                email,
-                firstName,
-                lastName,
-                phone,
-                address,
-                ward,
-                district,
-                province,
-            },
-        },
+        authState: { user },
+        updateUser,
+        isLoading,
     } = useContext(AuthContext)
     const [form] = Form.useForm()
-    const [profile, setProfile] = useState({
-        email,
-        firstName,
-        lastName,
-        phone,
-        address,
-        ward,
-        district,
-        province,
-    })
+    const [profile, setProfile] = useState({ ...user })
 
     const [apiProvince, setApiProvince] = useState({
         provinces,
@@ -201,7 +184,7 @@ function Profile() {
         wards: [],
     })
 
-    console.log(apiProvince)
+    // console.log(apiProvince)
     console.log(profile)
 
     const handleChangeProvince = (value, { key }) => {
@@ -225,10 +208,28 @@ function Profile() {
         })
     }
 
-    const handleOnFinish = (value) => {
-        console.log(value)
+    const handleOnFinish = async (value) => {
         // send form
+        const data = await updateUser(value, profile._id)
+        if (data.success) {
+            notification.success({
+                duration: 5,
+                message: 'Cập nhật thành công!',
+            })
+        } else {
+            notification.error({
+                duration: 5,
+                message: 'Đã có lỗi xảy ra!',
+            })
+        }
     }
+
+    // useEffect(() => {
+    //     if (user) {
+    //         setProfile({ ...user })
+    //     }
+    //     // user = { _id, email, firstName, lastName, phone, address, ward, district, province }
+    // }, [])
 
     return (
         <ProfileLayout>

@@ -122,6 +122,7 @@ function MyBooking() {
                         dataSource={dataSource}
                         pagination={pagination}
                         loading={isLoadingBooking}
+                        size="small"
                     />
                 </Col>
             </Row>

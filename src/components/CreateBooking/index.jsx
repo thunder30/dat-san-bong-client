@@ -142,7 +142,7 @@ function BookingInfo() {
                 })
             ),
         })
-    }, [statePitch])
+    }, [])
 
     const handleChangePitchType = (value, { key }) => {
         //console.log(key, value)
