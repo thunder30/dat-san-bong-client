@@ -13,6 +13,7 @@ import Profile from '../pages/Profile'
 import MyBooking from '../pages/MyBooking'
 import Checkout from '../pages/Checkout'
 import ChangePassword from '../pages/ChangePassword'
+import RegisterOwner from '../pages/RegisterOwner'
 import Logout from '../pages/Logout'
 
 import { AuthContext } from '../contexts/AuthProvider'
@@ -30,7 +31,7 @@ function Router() {
     const {
         authState: { isLoading },
     } = useContext(AuthContext)
-
+    console.log(`before isloading in router`)
     if (isLoading)
         return (
             <WrapperStyled>
@@ -38,6 +39,7 @@ function Router() {
                 <Spin size="large" tip="Loading..." />{' '}
             </WrapperStyled>
         )
+    console.log(`after isloading in router`)
 
     return (
         <Routes>
@@ -58,6 +60,7 @@ function Router() {
                 <Route path="profile" element={<Profile />} />
                 <Route path="mybooking" element={<MyBooking />} />
                 <Route path="changepassword" element={<ChangePassword />} />
+                <Route path="registerOwner" element={<RegisterOwner />} />
                 <Route path="logout" element={<Logout />} />
             </Route>
 

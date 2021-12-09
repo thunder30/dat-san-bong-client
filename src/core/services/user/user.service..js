@@ -19,4 +19,15 @@ const updateUser = async (user, _id) => {
     }
 }
 
-export { updateUser }
+const createOwner = async (infoBranch) => {
+    const token = getCookie(ACCESS_TOKEN_NAME)
+    setHeaderToken(token)
+    try {
+        const res = await axios.post(API_BASE_URL + `/pitchBranch`, infoBranch)
+        return successHandler(res)
+    } catch (error) {
+        return errorHandler(error)
+    }
+}
+
+export { updateUser, createOwner }
