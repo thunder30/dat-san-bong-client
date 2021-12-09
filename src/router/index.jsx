@@ -31,7 +31,7 @@ function Router() {
     const {
         authState: { isLoading },
     } = useContext(AuthContext)
-    console.log(`before isloading in router`)
+
     if (isLoading)
         return (
             <WrapperStyled>
@@ -39,7 +39,6 @@ function Router() {
                 <Spin size="large" tip="Loading..." />{' '}
             </WrapperStyled>
         )
-    console.log(`after isloading in router`)
 
     return (
         <Routes>

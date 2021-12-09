@@ -1,9 +1,10 @@
 import React, { useState, useContext } from 'react'
-import { Row, Col, Form, Input, Select, Button } from 'antd'
+import { Row, Col, Form, Input, Select, Button, notification } from 'antd'
 import DefaultLayout from '../layout/DefaultLayout'
 import { AuthContext } from '../contexts/AuthProvider'
 import * as apiUser from '../core/services/user'
 import { getRangeTime } from '../helpers'
+import { useNavigate } from 'react-router-dom'
 
 const { Item } = Form
 const { Option } = Select
@@ -97,6 +98,7 @@ const ProfilePersonItem = ({
 const AddressItem = ({
     onChange,
     onChangeProvince,
+    onChangeDistrict,
     value: { address, district, ward, province },
 
     apiProvince: { provinces, districts, wards },
@@ -130,7 +132,11 @@ const AddressItem = ({
         </Col>
         <Col span={8}>
             <Item label="Quận/Huyện" name="district">
-                <Select value={district} size="large">
+                <Select
+                    value={district}
+                    size="large"
+                    onChange={onChangeDistrict}
+                >
                     {districts.map(({ name, code }) => (
                         <Option value={name} key={code}>
                             {name}
@@ -176,8 +182,19 @@ const provinces = [
         ],
     },
 ]
+const wards = [
+    {
+        code: 1,
+        name: 'Phường 14',
+    },
+    {
+        code: 2,
+        name: 'Phường 15',
+    },
+]
 
 function RegisterOwner() {
+    let navigate = useNavigate()
     const {
         authState: { user },
         isLoading,
@@ -198,7 +215,7 @@ function RegisterOwner() {
     const [apiProvince, setApiProvince] = useState({
         provinces,
         districts: [],
-        wards: [],
+        wards,
     })
     const handleChangeProvince = (value, { key }) => {
         const districts = provinces.find(({ code }) => code === key).districts
@@ -210,6 +227,12 @@ function RegisterOwner() {
             ...profile,
             province: value,
             district: districts[0]?.name,
+        })
+    }
+    const handleChangeDistrict = (value, { key }) => {
+        setApiProvince({
+            ...apiProvince,
+            wards,
         })
     }
     const handleOnChangeStartTime = (value, ob) => {
@@ -231,12 +254,23 @@ function RegisterOwner() {
             [e.target.name]: e.target.value,
         })
     }
-    const handleOnFinish = (values) => {
+    const handleOnFinish = async (values) => {
+        form.resetFields()
         const pitchBranch = {
             ...values,
             owner: user._id,
         }
         console.log(pitchBranch)
+        const data = await apiUser.createOwner(pitchBranch)
+        console.log(data)
+        if (data.success) {
+            notification.success({
+                duration: 5,
+                title: 'Đăng ký thành công!',
+                message: 'Đăng nhập vào trang quản trị vào tạo sân của bạn.',
+            })
+            //navigate('https://quanly-datsanbong.netlify.app/')
+        }
         // call api
     }
     return (
@@ -263,6 +297,7 @@ function RegisterOwner() {
                                 value={profile}
                                 apiProvince={apiProvince}
                                 onChangeProvince={handleChangeProvince}
+                                onChangeDistrict={handleChangeDistrict}
                             />
                         </Row>
                         <Row gutter={[16, 0]} style={{ marginTop: 20 }}>
