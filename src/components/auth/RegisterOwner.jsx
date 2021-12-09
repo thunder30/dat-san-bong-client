@@ -9,7 +9,8 @@ const rowStyle = {
     // marginLeft:"10px"
 }
 const formStyle = {
-    margin: "20%",
+    marginLeft: "30%",
+    marginRight: "30%",
     marginTop: "5%"
 }
 
@@ -56,7 +57,6 @@ const SelectComponent = ({ title, options, ...props }) => (
 function RegisterOwner() {
     const [form] = Form.useForm()
     const handleOnFinish  = () => {}
-    const handleChangeBooking = () => {}
     return (
             <Form
                 name="normal_booking"
@@ -65,16 +65,19 @@ function RegisterOwner() {
                 style={formStyle}
             >
                 <Row style={{...rowStyle}}>
-                    <Col span={13}>
-                        <Item name="fullName">
+                    <Col span={24} style={{textAlign:'center', marginBottom:'20px'}}>
+                        <h1>Đăng ký chủ sân</h1>
+                    </Col>
+                    <Col span={14}>
+                        <Item name="pitchName">
                         <h3>Tên sân</h3>
                             <Input
-                                name="fullName"
-                                placeholder="Họ tên"
+                                name="pitchName"
+                                placeholder="Tên Sân"
                             />
                         </Item>
                     </Col>
-                    <Col span={9} offset={1}>
+                    <Col span={8} offset={1}>
                         <Item name="phoneNumber">
                         <h3>Số điện thoại</h3>
                             <Input
