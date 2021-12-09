@@ -118,7 +118,7 @@ const AddressItem = ({
         </Col>
         <Col span={8}>
             <Item label="Quận/Huyện" name="district">
-                <Select defaultValue={district} size="large">
+                <Select value={district} size="large">
                     {districts.map(({ name, code }) => (
                         <Option value={name} key={code}>
                             {name}
@@ -227,6 +227,7 @@ function Profile() {
 
     const handleOnFinish = (value) => {
         console.log(value)
+        // send form
     }
 
     return (

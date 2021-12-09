@@ -4,47 +4,53 @@ import ProfileLayout from '../layout/ProfileLayout'
 import { AuthContext } from '../contexts/AuthProvider'
 import { BookingContext } from '../contexts/BookingProvider'
 import getCodeOfBooking from '../helpers/getCodeOfBooking'
-import {convertBookingToTime, convertToDate} from '../helpers'
+import { convertBookingToTime, convertToDate } from '../helpers'
 import toCommas from '../helpers/toCommas'
 
 const columns = [
     {
         title: 'STT',
         dataIndex: 'stt',
+        aling: 'center',
         key: 'stt',
     },
     {
         title: 'Mã phiếu',
         dataIndex: 'code',
+        aling: 'center',
         key: 'code',
     },
     {
         title: 'Giá',
         dataIndex: 'price',
+        aling: 'center',
         key: 'price',
     },
     {
         title: 'Sân',
         dataIndex: 'pitch',
+        aling: 'center',
         key: 'pitch',
     },
     {
         title: 'Thời gian đá',
         dataIndex: 'bookingTime',
+        aling: 'center',
         key: 'bookingTime',
     },
     {
         title: 'Trạng thái',
         dataIndex: 'status',
+        aling: 'center',
         key: 'status',
     },
     {
         title: 'Ngày đặt',
         dataIndex: 'bookingDate',
+        aling: 'center',
         key: 'bookingDate',
     },
 ]
-
 
 const contentStyle = {
     border: '1px solid #eee',
@@ -53,7 +59,6 @@ const contentStyle = {
 }
 
 function MyBooking() {
-
     const {
         authState: { user, isLoading },
     } = useContext(AuthContext)
@@ -64,22 +69,32 @@ function MyBooking() {
 
     console.log(`history booking: `, bookings)
 
-    const dataSource = bookings.map(({bookingDetails}, index) => {
-        return bookingDetails.map(({pitch, _id, price, status,createdAt, startTime, endTime}) => {
-            return {
-                key: _id,
-                stt: index + 1,
-                code: getCodeOfBooking(_id),
-                price: toCommas(price) + ' VND',
-                pitch: pitch.displayName,
-                bookingTime: convertBookingToTime(startTime,endTime),
-                status: status.description,
-                bookingDate: convertToDate(createdAt),
-            }
+    const dataSource = bookings
+        .map(({ bookingDetails }, index) => {
+            return bookingDetails.map(
+                ({
+                    pitch,
+                    _id,
+                    price,
+                    status,
+                    createdAt,
+                    startTime,
+                    endTime,
+                }) => {
+                    return {
+                        key: _id,
+                        stt: index + 1,
+                        code: getCodeOfBooking(_id),
+                        price: toCommas(price) + ' VND',
+                        pitch: pitch.displayName,
+                        bookingTime: convertBookingToTime(startTime, endTime),
+                        status: status.description,
+                        bookingDate: convertToDate(createdAt),
+                    }
+                }
+            )
         })
-
-    })
-    console.log(`dataSource: `, dataSource)
+        .flat()
 
     const pagination = {
         defaultCurrent: 1,
@@ -87,7 +102,8 @@ function MyBooking() {
         total: dataSource.length,
         showSizeChanger: true,
         pageSizeOptions: ['5', '10', '20'],
-        showTotal: (total, range) => `${range[0]}-${range[1]} trên ${total} phiếu`,
+        showTotal: (total, range) =>
+            `${range[0]}-${range[1]} trên ${total} phiếu`,
     }
 
     useEffect(() => {
@@ -103,7 +119,7 @@ function MyBooking() {
                     <h3>Lịch sử đặt sân</h3>
                     <Table
                         columns={columns}
-                        dataSource={dataSource.flat()}
+                        dataSource={dataSource}
                         pagination={pagination}
                         loading={isLoadingBooking}
                     />

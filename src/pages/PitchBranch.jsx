@@ -79,17 +79,18 @@ function PitchBranch() {
                 <Col span={24}>
                     <Row
                         gutter={[0, 24]}
-                        style={{ ...contentStyle, padding: '40px 0' }}
+                        justify="center"
+                        style={{ padding: '40px 0' }}
                     >
-                        <Col span={24} style={{ textAlign: 'center' }}>
+                        <Col span={20} style={{ textAlign: 'center' }}>
                             <h2>Danh sách sân bóng</h2>
                         </Col>
-                        <Col span={6}>
+                        <Col span={10}>
                             <AutoComplete onSearch={handleSearch}>
                                 <Search placeholder="Tìm sân bóng..." />
                             </AutoComplete>
                         </Col>
-                        <Col span={6}>
+                        <Col span={10}>
                             <span
                                 style={{
                                     fontWeight: 'bold',
@@ -109,7 +110,7 @@ function PitchBranch() {
                                 ))}
                             </Select>
                         </Col>
-                        <Col span={24}>
+                        <Col span={20}>
                             <Row gutter={[24, 24]}>
                                 {branches.map(
                                     ({ _id, displayName, avatar }) => {

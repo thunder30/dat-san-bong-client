@@ -57,10 +57,14 @@ function PitchBranchDetail() {
 
     return (
         <DefaultLayout>
-            <Row>
+            <Row justify="center">
                 <Col span={24} style={{ minHeight: '60vh' }}>
                     <PanerStyled>
-                        <Row align="middle" style={contentStyle}>
+                        <Row
+                            justify="center"
+                            align="middle"
+                            style={{ height: '100%' }}
+                        >
                             <Col span={20}>
                                 <h1>{branch?.displayName || ''}</h1>
                             </Col>
@@ -68,12 +72,12 @@ function PitchBranchDetail() {
                     </PanerStyled>
                 </Col>
                 <Col span={24}>
-                    <Row style={{ ...contentStyle, padding: '40px 0' }}>
-                        <Col className="gutter-row" span={24}>
+                    <Row justify="center" style={{ padding: '40px 0' }}>
+                        <Col className="gutter-row" span={20}>
                             {/* Thông tin sân bóng */}
                             <CreateBooking />
                         </Col>
-                        <Col span={24}>
+                        <Col span={20}>
                             <h1>Các sân bóng gần đây</h1>
                             <ListPitch
                                 listPitch={getRelativeBranches(branches)}

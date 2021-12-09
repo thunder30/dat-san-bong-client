@@ -93,7 +93,11 @@ function Home() {
             <Row>
                 <Col span={24} style={{ minHeight: '70vh' }}>
                     <SloganStyled>
-                        <Row align="middle" style={contentStyle}>
+                        <Row
+                            justify="center"
+                            align="middle"
+                            style={{ height: '100%' }}
+                        >
                             <Col span={20}>
                                 <h1>ĐẶT SÂN NHANH CHÓNG - DỄ DÀNG</h1>
                                 <h2>Gặp Messi cùng các đồng đội</h2>
@@ -107,13 +111,14 @@ function Home() {
                 <Col span={24}>
                     <Row
                         gutter={[0, 24]}
+                        justify="center"
                         style={{
                             ...contentStyle,
                             padding: '40px 0',
                         }}
                     >
                         <Col
-                            span={24}
+                            span={20}
                             style={{
                                 textAlign: 'center',
                             }}
@@ -123,7 +128,7 @@ function Home() {
                                 <p>Hơn 200 sân bóng tại TP HCM</p>
                             </WrapperStyled>
                         </Col>
-                        <Col className="gutter-row" span={24}>
+                        <Col className="gutter-row" span={20}>
                             <Row gutter={[24]}>
                                 {features.map(
                                     ({ _id, displayName, avatar }) => {

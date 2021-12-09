@@ -66,7 +66,7 @@ const SelectComponent = ({ title, options, style, ...props }) => (
             {title}
         </div>
         <Select
-            defaultValue={options[0]?.displayName || ''}
+            defaultValue={''}
             style={{ width: 'auto', minWidth: 120, ...style }}
             {...props}
         >
@@ -142,7 +142,7 @@ function BookingInfo() {
                 })
             ),
         })
-    }, [window.onload])
+    }, [statePitch])
 
     const handleChangePitchType = (value, { key }) => {
         //console.log(key, value)
