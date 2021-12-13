@@ -28,7 +28,7 @@ const errorHandler = (error) => {
         if (status !== 401 && status !== 403)
             notification.error({
                 duration: 5,
-                message: `Request error ${status}`,
+                //message: `Request error ${status}`,
                 description: errorText,
             })
         return response.data

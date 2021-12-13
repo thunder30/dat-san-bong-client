@@ -13,7 +13,7 @@ const successHandler = (response) => {
         })
         if (status !== 401 && status !== 403)
             notification.error({
-                message: `Request error ${status}`,
+                //message: `Request error ${status}`,
                 description: errorText,
             })
     }
