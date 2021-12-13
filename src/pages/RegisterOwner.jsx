@@ -162,42 +162,56 @@ const AddressItem = ({
 
 const provinces = [
     {
-        code: '1',
-        name: 'TP. Hà Nội',
-        districts: [
-            {
-                code: 1,
-                name: 'Quận Ba Đình',
-            },
-        ],
-    },
-    {
-        code: '2',
-        name: 'TP. HCM',
-        districts: [
-            {
-                code: 1,
-                name: 'Quận Gò Vấp',
-            },
-        ],
-    },
-]
-const wards = [
-    {
         code: 1,
-        name: 'Phường 14',
+        name: 'Hà Nội',
+        districts: [
+            {
+                code: 1,
+                name: 'Ba Đình',
+                codeProvince: 1,
+                wards: [
+                    {
+                        code: 1,
+                        name: 'Giảng Võ',
+                        codeDistrict: 1,
+                    },
+                    {
+                        code: 2,
+                        name: 'Cầu giấy',
+                        codeDistrict: 1,
+                    },
+                ],
+            },
+        ],
     },
     {
         code: 2,
-        name: 'Phường 15',
+        name: 'Hồ Chí Minh',
+        districts: [
+            {
+                code: 1,
+                name: 'Gò Vấp',
+                codeProvince: 2,
+                wards: [
+                    {
+                        code: 1,
+                        name: 'Phường 14',
+                        codeDistrict: 1,
+                    },
+                    {
+                        code: 2,
+                        name: 'Phường 15',
+                        codeDistrict: 1,
+                    },
+                ],
+            },
+        ],
     },
 ]
 
 function RegisterOwner() {
-    let navigate = useNavigate()
     const {
         authState: { user },
-        isLoading,
     } = useContext(AuthContext)
     const [form] = Form.useForm()
     const [profile, setProfile] = useState({
@@ -211,14 +225,18 @@ function RegisterOwner() {
         endTime: '',
     })
     const rangeTimes = getRangeTime('00:00', '24:00')
-    console.log(profile)
+    // console.log(profile)
     const [apiProvince, setApiProvince] = useState({
         provinces,
         districts: [],
-        wards,
+        wards: [],
     })
+    // console.log(apiProvince)
     const handleChangeProvince = (value, { key }) => {
-        const districts = provinces.find(({ code }) => code === key).districts
+        const districts = apiProvince.provinces.find(
+            ({ code }) => code === key * 1
+        ).districts
+
         setApiProvince({
             ...apiProvince,
             districts,
@@ -230,9 +248,19 @@ function RegisterOwner() {
         })
     }
     const handleChangeDistrict = (value, { key }) => {
+        // console.log(`district ${key} ${value}`)
+        const wards = apiProvince.districts.find(
+            ({ code }) => code === key * 1
+        ).wards
+        // console.log(wards)
         setApiProvince({
             ...apiProvince,
             wards,
+        })
+        setProfile({
+            ...profile,
+            district: value,
+            wards: wards[0]?.name,
         })
     }
     const handleOnChangeStartTime = (value, ob) => {
@@ -266,10 +294,12 @@ function RegisterOwner() {
         if (data.success) {
             notification.success({
                 duration: 5,
-                title: 'Đăng ký thành công!',
-                message: 'Đăng nhập vào trang quản trị vào tạo sân của bạn.',
+                message: 'Đăng ký thành công!',
+                description: 'Quản trị viên sẽ liên hệ với bạn trong giây lát.',
             })
-            //navigate('https://quanly-datsanbong.netlify.app/')
+            // setTimeout(() => {
+            //     window.location.href = 'https://quanly-datsanbong.netlify.app/'
+            // }, 5000)
         }
         // call api
     }

@@ -45,7 +45,8 @@ function FooterContent() {
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <FacebookOutlined />
+                        <FacebookOutlined title="Pate Team" />
+                        <span> Pate Team</span>
                     </a>
                     <NavLinkStyled to="/blog">support@pate.com</NavLinkStyled>
                 </Col>
