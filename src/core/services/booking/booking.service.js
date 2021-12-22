@@ -69,4 +69,17 @@ const getHistoryBooking = async (userId) => {
     }
 }
 
-export { checkBooking, confirmBooking, getHistoryBooking }
+const cancelBooking = async (bookingDetailId) => {
+    const token = getCookie(ACCESS_TOKEN_NAME)
+    setHeaderToken(token)
+    try {
+        const res = await axios.put(
+            `${API_BASE_URL}/booking/cancelCus/` + bookingDetailId
+        )
+        return successHandler(res)
+    } catch (error) {
+        return errorHandler(error)
+    }
+}
+
+export { checkBooking, confirmBooking, getHistoryBooking, cancelBooking }

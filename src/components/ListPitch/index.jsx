@@ -6,6 +6,8 @@ import styled from 'styled-components'
 const CardStyled = styled(Card)`
     text-align: center;
     border-radius: 10px;
+    background-position: center center;
+    background-size: cover;
     h3 {
         color: #fff;
     }
