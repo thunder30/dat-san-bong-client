@@ -38,7 +38,7 @@ function Checkout() {
         typePay: 'Thanh toán online',
     })
 
-    console.log(booking)
+    //console.log(booking)
 
     const handleChangeRadio = (e) => {
         e.preventDefault()
@@ -74,6 +74,11 @@ function Checkout() {
                 description: 'Đặt sân thành công!',
             })
             navigate('/mybooking')
+        } else {
+            notification.success({
+                duration: 5,
+                description: data.message,
+            })
         }
     }
 

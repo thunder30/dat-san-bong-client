@@ -7,7 +7,7 @@ export const initialState = {
 }
 
 function reducer(state = initialState, { type, payload }) {
-    console.log(`reduce - payload: `, payload)
+    //console.log(`reduce - payload: `, payload)
     switch (type) {
         case types.AUTH_SUCCESS:
             return {

@@ -14,6 +14,7 @@ import PriceTable from '../PriceTable'
 
 import { PitchBranchContext } from '../../contexts/PitchBranchProvider'
 import { BookingContext } from '../../contexts/BookingProvider'
+import { AuthContext } from '../../contexts/AuthProvider'
 
 const { Option } = Select
 
@@ -110,6 +111,7 @@ function BookingInfo() {
         },
     } = useContext(PitchBranchContext)
     const { checkBooking } = useContext(BookingContext)
+    const { authState } = useContext(AuthContext)
 
     const [statePitch, setStatePitch] = useState({
         pitchType: null,
@@ -128,10 +130,10 @@ function BookingInfo() {
         createdAt: '',
     })
 
-    console.log(branch)
-    console.log(pitchTypes)
-    console.log(statePitch)
-    console.log(booking)
+    // console.log(branch)
+    // console.log(pitchTypes)
+    // console.log(statePitch)
+    // console.log(booking)
 
     useEffect(() => {
         setStatePitch({
@@ -202,12 +204,12 @@ function BookingInfo() {
         const _check = {
             pitch: {
                 ...booking.pitch,
-                pitchTypeName: statePitch.pitchType.displayName,
+                pitchTypeName: statePitch?.pitchType?.displayName,
             },
             startTime: `${booking.createdAt} ${booking.startTime}`,
             endTime: `${booking.createdAt} ${endTime}`,
         }
-        console.log(`object check booking: `, _check)
+        //console.log(`object check booking: `, _check)
         const data = await checkBooking({
             ..._check,
         })
@@ -218,11 +220,16 @@ function BookingInfo() {
                 description: 'Có thể đặt sân',
             })
             navigate('/checkout')
+        } else {
+            notification.error({
+                duration: 10,
+                description: data.message,
+            })
         }
     }
 
-    const handleButtonBooking = async () => {
-        if (isAuthenticated) await handleBooking()
+    const handleButtonBooking = () => {
+        if (authState.isAuthenticated) handleBooking()
         else {
             notification.info({
                 duration: 10,

@@ -12,7 +12,7 @@ function AuthProvider({ children }) {
 
     let navigate = useNavigate()
 
-    console.log(`Auth provider`)
+    //console.log(`Auth provider`)
     console.log(`Authenticated: `, authState.isAuthenticated)
     // call api loadUser
     const getAuth = async () => {
@@ -36,7 +36,7 @@ function AuthProvider({ children }) {
     }
 
     useEffect(() => {
-        console.log(`useEffect Auth`)
+        //console.log(`useEffect Auth`)
         getAuth()
     }, [])
 

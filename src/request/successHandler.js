@@ -5,17 +5,15 @@ const successHandler = (response) => {
     const { data } = response
     if (!data.success) {
         const message = data && data.message
-        const errorText = message || codeMessage[response.status]
-        const { status } = response
+        let errorText = message || codeMessage[response.status]
         //console.log(`success handler: `, response)
-        notification.config({
-            duration: 5,
+        if (response.status === 401 || response.status === 403) {
+            errorText = 'Đã có lỗi xảy ra, vui lòng tải lại trang!'
+        }
+        notification.error({
+            duration: 10,
+            description: errorText,
         })
-        if (status !== 401 && status !== 403)
-            notification.error({
-                //message: `Request error ${status}`,
-                description: errorText,
-            })
     }
     return data
 }

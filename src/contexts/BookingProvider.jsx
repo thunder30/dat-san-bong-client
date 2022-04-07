@@ -8,7 +8,7 @@ export const BookingContext = createContext()
 function BookingProvider({ children }) {
     const [bookingState, dispatch] = useReducer(reducer, initialState)
 
-    console.log('bookingState: ', { bookingState })
+    //console.log('bookingState: ', { bookingState })
 
     const checkBooking = async ({ startTime, endTime, pitch }) => {
         const data = await services.checkBooking({
@@ -35,8 +35,7 @@ function BookingProvider({ children }) {
     }
 
     const confirmBooking = async (booking) => {
-        const data = await services.confirmBooking(booking)
-        return data
+        return services.confirmBooking(booking)
     }
 
     const getHistoryBooking = async (userId) => {
@@ -46,7 +45,7 @@ function BookingProvider({ children }) {
         })
 
         const data = await services.getHistoryBooking(userId)
-        console.log(`bookings data: `, data)
+        //console.log(`bookings data: `, data)
         if (data.success) {
             dispatch({
                 type: types.LOAD_SUCCESS,
